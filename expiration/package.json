@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@geetix/common": "^1.0.10",
+    "@geetix/common": "^1.0.12",
     "@types/bull": "^3.14.3",
     "bull": "^3.18.0",
     "ts-node-dev": "^1.0.0-pre.62",

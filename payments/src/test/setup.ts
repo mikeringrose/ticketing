@@ -7,7 +7,7 @@ jest.mock('../nats-wrapper');
 declare global {
   namespace NodeJS {
     interface Global {
-      signin(): string[];
+      signin(userid?: string): string[];
     }
   }
 }
@@ -26,14 +26,16 @@ beforeAll(async () => {
   });
 });
 
+beforeEach(async () => {
+  jest.clearAllMocks();
+});
+
 afterAll(async () => {
   await mongo.stop();
   await mongoose.connection.close();
 });
 
 beforeEach(async () => {
-  jest.clearAllMocks();
-
   const collections = await mongoose.connection.db.collections();
 
   for (let collection of collections) {
@@ -41,8 +43,7 @@ beforeEach(async () => {
   }
 });
 
-global.signin = () => {
-  const id = new mongoose.Types.ObjectId().toHexString();
+global.signin = (id: string = mongoose.Types.ObjectId().toHexString()) => {
   const email = 'test@test.com';
 
   const userJwt = jwt.sign(
