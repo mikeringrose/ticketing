@@ -1,6 +1,6 @@
 import { NotAuthorizedError, NotFoundError, requireAuth } from '@geetix/common';
 import express, { Request, Response } from 'express';
-import { OrderCancelledPushlisher } from '../events/publishers/order-cancelled-publisher';
+import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
 import { Order, OrderStatus } from '../models/order';
 import { Ticket } from '../models/ticket';
 import { natsWrapper } from '../nats-wrapper';
@@ -25,7 +25,7 @@ router.delete(
     order.status = OrderStatus.Cancelled;
     await order.save();
 
-    new OrderCancelledPushlisher(natsWrapper.client).publish({
+    new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
       version: order.version,
       ticket: {

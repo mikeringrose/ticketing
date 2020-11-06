@@ -7,7 +7,7 @@ import {
 import { Message } from 'node-nats-streaming';
 import { Order } from '../../models/order';
 import { natsWrapper } from '../../nats-wrapper';
-import { OrderCancelledPushlisher } from '../publishers/order-cancelled-publisher';
+import { OrderCancelledPublisher } from '../publishers/order-cancelled-publisher';
 import { queueGroupName } from './queue-group-name';
 
 export class ExpirationCompleteListener extends Listener<
@@ -29,7 +29,7 @@ export class ExpirationCompleteListener extends Listener<
     order.set({ status: OrderStatus.Cancelled });
     await order.save();
 
-    new OrderCancelledPushlisher(natsWrapper.client).publish({
+    new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
       version: order.version,
       ticket: { id: order.ticket.id, price: order.ticket.price }
