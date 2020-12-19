@@ -7,6 +7,8 @@ import { ExpirationCompleteListener } from './events/listeners/expiration-comple
 import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
 
 const start = async () => {
+  console.log("Starting orders...");
+
   if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI must be defined');
   }
